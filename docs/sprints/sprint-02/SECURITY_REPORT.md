@@ -40,7 +40,7 @@
 - **Evidence:** static review; the key `delivery.refresh_token` is written on login and rotation. The Team Leader flagged this decision for Security.
 - **Impact:** XSS or a malicious browser extension means persistent account takeover (driver, trader and admin accounts included).
 - **Remediation:** preferred: refresh token in an `HttpOnly; Secure; SameSite=Strict` cookie scoped to `/api/v1/auth/` (needs a CSRF token or origin check on refresh/logout). Otherwise: add a strict CSP from Nginx (`default-src 'self'`, no inline scripts, `frame-ancestors 'none'`), shorten refresh lifetime for admin/manager, and keep the no-`v-html` rule enforced by ESLint (`vue/no-v-html`).
-- **Status:** OPEN
+- **Status:** FIXED (verified 2026-10-27, see sprint-03/SECURITY_RETEST.md)
 
 ### VULN-013: Staging compose publishes the backend port directly while `NUM_PROXIES=1`, re-opening the throttle bypass (regression of VULN-001 by topology)
 - **Severity:** Medium
@@ -59,7 +59,7 @@
 - **Evidence:** `POST /auth/register/client/` with 100,000 `[` characters -> 500 (`RecursionError` in the JSON parser; the same payload with `{` gives 400). Any request body above Django's 2.5 MB `DATA_UPLOAD_MAX_MEMORY_SIZE` -> 500 (`RequestDataTooBig` is not mapped to 400/413). A correctly signed access token whose `user_id` is a non-integer string -> 500 (needs the signing key, so key-compromise only). Responses are the generic envelope; no stack trace leaks (verified), but each 500 logs a traceback and can trigger error alerts.
 - **Impact:** noise and cheap log/alert flooding; no data exposure.
 - **Remediation:** map `RecursionError` and `SuspiciousOperation`/`RequestDataTooBig` to 400/413 in the exception handler (or a small middleware), limit body size at Nginx (`client_max_body_size 64k` for the auth routes), and cap JSON nesting.
-- **Status:** OPEN
+- **Status:** FIXED (verified 2026-10-27, see sprint-03/SECURITY_RETEST.md)
 
 ### VULN-015: Login accepts unbounded identifier and password length
 - **Severity:** Low
@@ -68,7 +68,7 @@
 - **Evidence:** a 2 MB password or a 2 MB identifier takes about 1.35 s per request (hashing/normalisation) versus about 0.83 s for a normal wrong-password attempt (the PBKDF2 hash dominates both).
 - **Impact:** small amplification; bounded by the 10/min/IP throttle and the 2.5 MB body limit.
 - **Remediation:** `max_length=150` for `username_or_phone` and 128 for `password` on login (return the generic 401/400).
-- **Status:** OPEN
+- **Status:** FIXED (verified 2026-10-27, see sprint-03/SECURITY_RETEST.md)
 
 ### VULN-016: Login identifier normalisation is too lenient
 - **Severity:** Low
@@ -77,7 +77,7 @@
 - **Evidence:** `x01000000005` and `abc-0100-0000-005-zzz` authenticate as the account with phone `01000000005` (200 with the correct password). Also the query ORs `username` and `phone` and takes `.first()`, so an identifier could match two different accounts in theory.
 - **Impact:** no bypass of the password; makes identifier handling ambiguous and may confuse audit logs and future lockout keyed by identifier.
 - **Remediation:** only normalise when the identifier looks like a phone (digits, spaces, dashes, `+`, brackets, Arabic digits only); otherwise match the username exactly. Prefer the exact username match over the phone match.
-- **Status:** OPEN
+- **Status:** FIXED (verified 2026-10-27, see sprint-03/SECURITY_RETEST.md)
 
 ### VULN-017: No refresh-token reuse detection; sessions survive password changes
 - **Severity:** Low
@@ -85,7 +85,7 @@
 - **Evidence:** after an old (rotated) refresh token was presented and refused, the legitimate new refresh token still worked (200). After a password change in the database, the previously issued access (200) and refresh (200) tokens still worked. Access tokens issued before rotation or logout stay valid up to 15 minutes (documented).
 - **Impact:** a thief who replays an old token is not detected and the victim is not logged out; once password recovery arrives (Sprint 03) a reset would not end a hijacked session.
 - **Remediation:** on reuse of a blacklisted refresh token blacklist all outstanding tokens of that user; blacklist all of a user's tokens when the password is changed/reset or the account is deactivated; schedule `flushexpiredtokens`.
-- **Status:** OPEN (must be done together with Sprint 03 password recovery at the latest)
+- **Status:** FIXED (verified 2026-10-27, see sprint-03/SECURITY_RETEST.md)
 
 ### VULN-018: Phone numbers and emails are unverified and email uniqueness is only an application check
 - **Severity:** Low
@@ -94,7 +94,7 @@
 - **Evidence:** any client can register any phone number (the real owner then gets "already exists"); duplicate email check is case-insensitive in code but not enforced by the database, so concurrent registrations can create duplicates. Duplicate phone/email messages disclose registered values (accepted by the contract; mitigated by the 30/min throttle; the existing-phone path answers in about 4 ms versus 830 ms for a new phone, which only repeats what the body already says).
 - **Impact:** number squatting and pre-registration of someone else's phone before recovery/OTP exists; weaker account recovery later.
 - **Remediation:** phone/email verification (OTP) before password recovery is built; add a unique constraint on a normalised (lower-cased) email where non-empty.
-- **Status:** OPEN (track for Sprint 03)
+- **Status:** FIXED (verified 2026-10-27, see sprint-03/SECURITY_RETEST.md)
 
 ### VULN-019: Token responses are not marked non-cacheable
 - **Severity:** Low
@@ -102,7 +102,7 @@
 - **Evidence:** `POST /auth/token/` 200 has no `Cache-Control`, no `Pragma`; `GET /auth/me/` also has none.
 - **Impact:** a shared cache or browser could store tokens or profile data.
 - **Remediation:** `Cache-Control: no-store` on all `/api/v1/auth/*` responses (small middleware or per-view decorator).
-- **Status:** OPEN
+- **Status:** FIXED (verified 2026-10-27, see sprint-03/SECURITY_RETEST.md)
 
 ### VULN-020 (Info): Public development `SECRET_KEY` fallback
 - `config/settings/development.py` falls back to `insecure-development-only-key`. With it, anyone can mint an access token for any user id (I confirmed that a validly signed token is accepted, so the only barrier is the key). Production/staging refuse placeholder and short keys (`secrets.py`, verified in Sprint 01) and `wsgi.py`/`asgi.py` default to production. Keep dev servers off public networks. The dev server also sends `Server: WSGIServer/0.2 CPython/3.12.3` and serves `/api/schema/` and `/api/docs/` (production default is off).

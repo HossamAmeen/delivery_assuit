@@ -100,3 +100,14 @@ def test_second_run_restores_status():
         User.objects.get(username="demo_driver_pending").status
         == User.Status.PENDING_APPROVAL
     )
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "module", ["config.settings.production", "config.settings.staging"]
+)
+def test_refuses_server_settings_even_with_force(monkeypatch, module):
+    monkeypatch.setenv("DJANGO_SETTINGS_MODULE", module)
+    with pytest.raises(CommandError, match="production or staging"):
+        run("--force")
+    assert not User.objects.filter(username="demo_admin").exists()

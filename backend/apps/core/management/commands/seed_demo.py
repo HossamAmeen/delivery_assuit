@@ -35,6 +35,13 @@ class Command(BaseCommand):
                 yield name, import_module(name)
 
     def handle(self, *args, **options):
+        # demo_admin is a well-known superuser: never create it on a server (VULN-021),
+        # not even with --force.
+        module = os.environ.get("DJANGO_SETTINGS_MODULE", "")
+        if module.rsplit(".", 1)[-1] in ("production", "staging"):
+            raise CommandError(
+                "Refusing to seed demo data with production or staging settings."
+            )
         if not settings.DEBUG and not options["force"]:
             raise CommandError(
                 "Refusing to seed demo data when DEBUG=False. Use --force."

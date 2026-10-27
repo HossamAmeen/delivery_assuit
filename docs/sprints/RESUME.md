@@ -1,5 +1,7 @@
 # Resume Point
 
+Update 2026-10-27 (deployed + security retest): live at delivery.hossam-ameen.online / api.delivery.hossam-ameen.online. VULN-012..019, VULN-021, BUG-010 and the E2 outside-host retest are closed (docs/sprints/sprint-03/SECURITY_RETEST.md). Still open: QA for Sprints 03 to 10 (unpaused now that staging exists), real-device PWA check, Celery on server, 4 GitHub SSH secrets.
+
 Date: 2026-10-27
 Update 2026-10-27 (Sprint 07 finished): all Sprint 07 build tasks IN_REVIEW. Backend TASK-098..106 (item prices with order-line snapshot, fee changes with history, orders table filters and status timeline, cancel, trader status tests, staff drivers/traders/clients lists and details; suite 1035 passed, 1 skipped). Frontend TASK-107..111 (orders table, staff order details, staff lists, staff details with price editor, trader status tests; Vitest 463 passed). Sprint 08 next (PO: do all tasks in sprints).
 

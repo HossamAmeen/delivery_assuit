@@ -1,7 +1,7 @@
 # TODO (reminders from PO, 2026-10-08)
 
-- [ ] **CI**: GitHub Actions pipeline (TASK-019 backend job, TASK-020 frontend job; BL-004). PO decision 2026-10-10: do this at the END (after the other Sprint 01 decisions and deploy work).
-- [ ] **Deploy**: systemd-based deployment (deploy scripts, systemd template, Nginx template, post-deploy health check). Deferred; DevOps stage after sprint approval.
+- [x] **CI** (done 2026-10-27, .github/workflows/ci-cd.yml; needs the 4 SSH secrets for the deploy job): GitHub Actions pipeline (TASK-019 backend job, TASK-020 frontend job; BL-004). PO decision 2026-10-10: do this at the END (after the other Sprint 01 decisions and deploy work).
+- [x] **Deploy** (done 2026-10-27, ops/push.sh + ops/server/deploy.sh, live on 35.226.179.10): systemd-based deployment (deploy scripts, systemd template, Nginx template, post-deploy health check). Deferred; DevOps stage after sprint approval.
 - [ ] **Celery + Redis**: enabled on staging/server only; dev settings keep them off. Verify on staging.
 - [x] Run/validate Docker files: done 2026-10-10 (local and staging stacks), 4 bugs fixed.
 - [ ] BL-007: seed orders/shops/items once those models exist.
@@ -15,5 +15,5 @@
 
 ## Sprint 02 security triage (2026-10-17, Team Leader)
 - [x] TASK-041 (VULN-011) and TASK-043 (VULN-013): DONE 2026-10-17 (QA retest passed; Security: fixed with conditions). Conditions remain: PostgreSQL concurrency run (E1) and VULN-013 outside-host retest at first staging deploy (E2). **VULN-013 conditions must be checked before any staging/production deploy.**
-- [ ] TASK-042 (VULN-012): moved to Sprint 03. PO choice 2026-10-26 is the HttpOnly refresh cookie. TASK-044, TASK-045 and TASK-054 are DONE for QA (2026-10-27). Not closed until the Security retest. BUG-010 (Low) is open.
+- [x] TASK-042 (VULN-012) retested 2026-10-27, see sprint-03/SECURITY_RETEST.md. Old note: moved to Sprint 03. PO choice 2026-10-26 is the HttpOnly refresh cookie. TASK-044, TASK-045 and TASK-054 are DONE for QA (2026-10-27). Not closed until the Security retest. BUG-010 (Low) is open.
 - [ ] Deferred Low/Info candidates, no tasks yet: VULN-014 (500 on bad input; Nginx body limit), VULN-015 (login max_length), VULN-016 (identifier normalisation), VULN-017 (reuse detection, revoke on password change; with Sprint 03 recovery), VULN-018 (verify phone/email, unique email; Sprint 03), VULN-019 (Cache-Control no-store on auth), VULN-020/021/022 (Info). Details in docs/sprints/sprint-02/SPRINT.md.

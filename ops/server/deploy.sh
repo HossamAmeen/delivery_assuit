@@ -131,67 +131,132 @@ fi
 rm -f "${tmp}"
 sudo systemctl restart "${SERVICE}"
 
-# ---------------------------------------------------------------- nginx (written once; certbot edits it afterwards)
+# ---------------------------------------------------------------- nginx
+# The site files are regenerated on every deploy, so hardening changes take effect. Before a
+# certificate exists they are plain HTTP (certbot needs that); afterwards they are the full TLS form.
 log "nginx"
-for domain_conf in "${FRONTEND_DOMAIN}" "${API_DOMAIN}"; do
-  [[ -e "/etc/nginx/sites-enabled/${domain_conf}.conf" ]] && continue
-  if [[ "${domain_conf}" == "${API_DOMAIN}" ]]; then
-    sudo tee "/etc/nginx/sites-available/${domain_conf}.conf" >/dev/null <<EOF
+sudo tee /etc/nginx/conf.d/00-delivery-hardening.conf >/dev/null <<'EOF'
+server_tokens off;
+EOF
+
+sudo tee /etc/nginx/snippets/delivery-proxy.conf >/dev/null <<'EOF'
+proxy_pass http://127.0.0.1:__PORT__;
+# One trusted hop: overwrite (never append) client-supplied forwarding headers (NUM_PROXIES=1).
+proxy_set_header Host              $host;
+proxy_set_header X-Real-IP         $remote_addr;
+proxy_set_header X-Forwarded-For   $remote_addr;
+proxy_set_header X-Forwarded-Proto $scheme;
+EOF
+sudo sed -i "s/__PORT__/${BACKEND_PORT}/" /etc/nginx/snippets/delivery-proxy.conf
+
+sudo tee /etc/nginx/snippets/delivery-security-headers.conf >/dev/null <<EOF
+add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header X-Frame-Options "DENY" always;
+add_header Referrer-Policy "same-origin" always;
+add_header Cross-Origin-Opener-Policy "same-origin" always;
+add_header Permissions-Policy "camera=(), microphone=(), geolocation=(self), payment=()" always;
+add_header Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https://${API_DOMAIN}; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'" always;
+EOF
+
+has_cert() { sudo test -d "/etc/letsencrypt/live/$1"; }
+
+# listen/redirect preamble shared by both sites: $1 = domain
+tls_head() {
+  if has_cert "$1" && [[ "${ENABLE_SSL}" == "true" ]]; then
+    cat <<EOF
 server {
     listen 80;
     listen [::]:80;
-    server_name ${API_DOMAIN};
-    server_tokens off;
+    server_name $1;
+    return 301 https://\$host\$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name $1;
+    ssl_certificate /etc/letsencrypt/live/$1/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$1/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+EOF
+  else
+    printf 'server {\n    listen 80;\n    listen [::]:80;\n    server_name %s;\n' "$1"
+  fi
+}
+
+write_sites() {
+  {
+    tls_head "${API_DOMAIN}"
+    cat <<EOF
     client_max_body_size 10m;
 
     location /static/ { alias ${APP_DIR}/static/; }
-    location /media/  { alias ${APP_DIR}/media/; }
+    location /media/  { alias ${APP_DIR}/media/; add_header X-Content-Type-Options "nosniff" always; }
+
+    # Credentials only: small bodies (VULN-014).
+    location /api/v1/auth/ {
+        client_max_body_size 64k;
+        include /etc/nginx/snippets/delivery-proxy.conf;
+    }
 
     location / {
-        proxy_pass http://127.0.0.1:${BACKEND_PORT};
-        # One trusted hop: overwrite (never append) client-supplied forwarding headers (NUM_PROXIES=1).
-        proxy_set_header Host              \$host;
-        proxy_set_header X-Real-IP         \$remote_addr;
-        proxy_set_header X-Forwarded-For   \$remote_addr;
-        proxy_set_header X-Forwarded-Proto \$scheme;
+        include /etc/nginx/snippets/delivery-proxy.conf;
     }
 }
 EOF
-  else
-    sudo tee "/etc/nginx/sites-available/${domain_conf}.conf" >/dev/null <<EOF
-server {
-    listen 80;
-    listen [::]:80;
-    server_name ${FRONTEND_DOMAIN};
-    server_tokens off;
+  } | sudo tee "/etc/nginx/sites-available/${API_DOMAIN}.conf" >/dev/null
 
+  {
+    tls_head "${FRONTEND_DOMAIN}"
+    cat <<EOF
     root ${WEB_ROOT};
     index index.html;
     gzip on;
     gzip_types text/css application/javascript application/json image/svg+xml application/manifest+json;
+    include /etc/nginx/snippets/delivery-security-headers.conf;
 
-    location /assets/ { expires 1y; add_header Cache-Control "public, immutable"; }
-    location = /index.html { add_header Cache-Control "no-cache"; }
-    location = /sw.js { add_header Cache-Control "no-cache"; }
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        include /etc/nginx/snippets/delivery-security-headers.conf;
+    }
+    location = /index.html {
+        add_header Cache-Control "no-cache";
+        include /etc/nginx/snippets/delivery-security-headers.conf;
+    }
+    location = /sw.js {
+        add_header Cache-Control "no-cache";
+        include /etc/nginx/snippets/delivery-security-headers.conf;
+    }
     location / { try_files \$uri \$uri/ /index.html; }
 }
 EOF
-  fi
-  sudo ln -sf "/etc/nginx/sites-available/${domain_conf}.conf" "/etc/nginx/sites-enabled/${domain_conf}.conf"
-done
-sudo nginx -t
-sudo systemctl reload nginx
+  } | sudo tee "/etc/nginx/sites-available/${FRONTEND_DOMAIN}.conf" >/dev/null
+
+  for d in "${FRONTEND_DOMAIN}" "${API_DOMAIN}"; do
+    sudo ln -sf "/etc/nginx/sites-available/${d}.conf" "/etc/nginx/sites-enabled/${d}.conf"
+  done
+  sudo nginx -t
+  sudo systemctl reload nginx
+}
+
+write_sites
 
 # ---------------------------------------------------------------- TLS (skips domains that already have a certificate)
 if [[ "${ENABLE_SSL}" == "true" ]]; then
   log "Let's Encrypt"
+  issued=0
   for d in "${FRONTEND_DOMAIN}" "${API_DOMAIN}"; do
-    if sudo test -d "/etc/letsencrypt/live/${d}"; then
+    if has_cert "$d"; then
       echo "certificate for ${d} already present"
     else
-      sudo certbot --nginx --non-interactive --agree-tos --redirect -m "${SSL_EMAIL}" -d "${d}"
+      sudo certbot certonly --nginx --non-interactive --agree-tos -m "${SSL_EMAIL}" -d "${d}"
+      issued=1
     fi
   done
+  ((issued)) && write_sites
 fi
 
 # ---------------------------------------------------------------- health check (fails the deploy)

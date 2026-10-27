@@ -16,6 +16,27 @@ export const HOME_ROUTES = {
   manager: '/admin',
 }
 
+// Non-secret marker (no token) that this browser had a session. The refresh cookie is HttpOnly, so
+// without it a failed restore cannot tell "session ended elsewhere" from "never signed in" (BUG-010).
+const SESSION_FLAG_KEY = 'delivery.has_session'
+
+function hadSession() {
+  try {
+    return localStorage.getItem(SESSION_FLAG_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+function setSessionFlag(on) {
+  try {
+    if (on) localStorage.setItem(SESSION_FLAG_KEY, '1')
+    else localStorage.removeItem(SESSION_FLAG_KEY)
+  } catch {
+    // storage blocked: the notice is just skipped
+  }
+}
+
 function dropLegacyRefreshToken() {
   try {
     localStorage.removeItem(REFRESH_STORAGE_KEY)
@@ -66,6 +87,7 @@ export const useAuthStore = defineStore('auth', {
       this.accessToken = null
       this.status = 'anonymous'
       this.endedReason = reason
+      setSessionFlag(false)
       dropLegacyRefreshToken()
     },
 
@@ -76,6 +98,7 @@ export const useAuthStore = defineStore('auth', {
       this.user = data.user
       this.status = 'authenticated'
       this.endedReason = ''
+      setSessionFlag(true)
       return data.user
     },
 
@@ -106,6 +129,7 @@ export const useAuthStore = defineStore('auth', {
         await this.refreshSession()
         this.user = await authApi.me()
         this.status = 'authenticated'
+        setSessionFlag(true)
         return true
       } catch (err) {
         const deactivated = err?.code === ERROR_CODES.ACCOUNT_DEACTIVATED
@@ -115,9 +139,9 @@ export const useAuthStore = defineStore('auth', {
           err?.status === 401 ||
           (err?.status === 403 && (deactivated || originRejected))
         if (definitive) {
-          // 401 is often "no cookie", not a session the user just lost.
           // A live session that later fails still sets "expired" via the http interceptor.
-          this.clearSession(deactivated ? 'deactivated' : '')
+          // Only a browser that had a session sees "expired"; a first visit stays quiet.
+          this.clearSession(deactivated ? 'deactivated' : hadSession() ? 'expired' : '')
         } else {
           // Network/server trouble: the cookie stays. A later reload can retry.
           this.accessToken = null

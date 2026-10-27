@@ -151,6 +151,31 @@ describe('restore', () => {
     expect(store.isAuthenticated).toBe(false)
   })
 
+  it('shows "expired" when this browser had a session that ended elsewhere (BUG-010)', async () => {
+    mockApi({ 'POST auth/token/': () => ok({ access: 'A1', user }) })
+    await store.login({ usernameOrPhone: 'x', password: 'y' })
+    expect(localStorage.getItem('delivery.has_session')).toBe('1')
+    expect(JSON.stringify(localStorage)).not.toContain('A1')
+
+    setActivePinia(createPinia())
+    const reloaded = useAuthStore()
+    reloaded.init({ onSessionEnded: vi.fn() })
+    mockApi({ 'POST auth/token/refresh/': () => fail(401) })
+    expect(await reloaded.restore()).toBe(false)
+    expect(reloaded.endedReason).toBe('expired')
+    expect(localStorage.getItem('delivery.has_session')).toBeNull()
+  })
+
+  it('clears the session marker on logout', async () => {
+    mockApi({
+      'POST auth/token/': () => ok({ access: 'A1', user }),
+      'POST auth/logout/': () => ok({}),
+    })
+    await store.login({ usernameOrPhone: 'x', password: 'y' })
+    await store.logout()
+    expect(localStorage.getItem('delivery.has_session')).toBeNull()
+  })
+
   it('does not mark the session expired on a network failure', async () => {
     mockApi({ 'POST auth/token/refresh/': () => new Error('Network Error') })
     expect(await store.restore()).toBe(false)

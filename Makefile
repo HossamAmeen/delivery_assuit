@@ -29,7 +29,13 @@ docker-seed:
 docker-reset:
 	$(COMPOSE) down -v
 
-# --- Deploy to the server without Docker (needs SSH_HOST and SSH_USER; optional SSH_KEY) ---
+# --- Deploy to the server from this shell, no Docker. Override on the command line if needed:
+#     make deploy SSH_KEY=~/.ssh/other_key
+SSH_HOST ?= 35.226.179.10
+SSH_USER ?= hossam
+SSH_KEY  ?= $(HOME)/.ssh/google_compute_engine
+export SSH_HOST SSH_USER SSH_KEY
+
 .PHONY: deploy
 deploy:
 	./ops/push.sh
