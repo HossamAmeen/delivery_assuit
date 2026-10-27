@@ -1,0 +1,681 @@
+{
+  "app": {
+    "name": "Delivery"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "ar": "العربية"
+  },
+  "nav": {
+    "home": "Home",
+    "backHome": "Back to home",
+    "areas": "Areas",
+    "skipToContent": "Skip to content",
+    "bottomNav": "Main navigation",
+    "login": "Sign in",
+    "register": "Register",
+    "logout": "Sign out"
+  },
+  "areas": {
+    "driver": "Driver",
+    "trader": "Trader",
+    "client": "Client",
+    "admin": "Admin / Manager"
+  },
+  "layouts": {
+    "driver": "Driver area",
+    "trader": "Trader area",
+    "client": "Client area",
+    "admin": "Admin and Manager area",
+    "empty": "Nothing here yet."
+  },
+  "notFound": {
+    "title": "Page not found"
+  },
+  "health": {
+    "checking": "Checking service…",
+    "healthy": "Healthy",
+    "retry": "Retry",
+    "errors": {
+      "network": "Cannot reach the server. Please try again later.",
+      "rejected": "The server rejected the health check.",
+      "rateLimited": "Too many requests. Please wait a moment.",
+      "unavailable": "The service is unavailable right now."
+    }
+  },
+  "auth": {
+    "errors": {
+      "pending": "Your account is pending approval.",
+      "deactivated": "Your account has been deactivated. Please contact the administrator.",
+      "invalid": "Invalid credentials.",
+      "network": "Cannot reach the server. Please try again later.",
+      "rateLimited": "Too many requests. Please wait a moment.",
+      "generic": "Something went wrong. Please try again.",
+      "sessionExpired": "Your session has expired. Please sign in again.",
+      "rejected": "Your registration was rejected."
+    },
+    "pages": {
+      "login": "Sign in",
+      "register": "Register",
+      "placeholder": "This screen is coming soon."
+    },
+    "login": {
+      "identifier": "Phone number or username",
+      "identifierHint": "Enter the phone number or username you registered with.",
+      "password": "Password",
+      "show": "Show",
+      "hide": "Hide",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "required": "Enter your phone number or username.",
+      "passwordRequired": "Enter your password.",
+      "noAccount": "Don't have an account?"
+    },
+    "register": {
+      "chooseIntro": "Choose the type of account you want to create.",
+      "haveAccount": "Already have an account?",
+      "roles": {
+        "client": {
+          "title": "Client",
+          "desc": "Order deliveries and follow them."
+        },
+        "driver": {
+          "title": "Driver",
+          "desc": "Deliver orders. Needs approval before you can sign in."
+        },
+        "trader": {
+          "title": "Trader",
+          "desc": "Send orders from your shop. Needs approval before you can sign in."
+        }
+      },
+      "titles": {
+        "client": "Register as a client",
+        "driver": "Register as a driver",
+        "trader": "Register as a trader"
+      },
+      "name": "Full name",
+      "nameTrader": "Shop or trader name",
+      "phone": "Phone number",
+      "phoneHint": "8 to 15 digits. Spaces, dashes and + are fine.",
+      "email": "Email (optional)",
+      "emailHint": "Needed later to recover your password.",
+      "passwordRules": "At least 8 characters. Not too common, not only numbers, and not similar to your name, phone or email.",
+      "confirm": "Confirm password",
+      "submit": "Create account",
+      "submitting": "Creating account…",
+      "errors": {
+        "nameRequired": "Enter your name.",
+        "nameShort": "The name must be at least 2 characters.",
+        "phoneRequired": "Enter your phone number.",
+        "phoneInvalid": "Enter a valid phone number (8 to 15 digits).",
+        "emailInvalid": "Enter a valid email address.",
+        "passwordRequired": "Enter a password.",
+        "passwordShort": "The password must be at least 8 characters.",
+        "confirmMismatch": "The passwords do not match."
+      },
+      "pending": {
+        "title": "Registration received",
+        "intro": {
+          "driver": "Your driver account was created and is pending approval.",
+          "trader": "Your trader account was created and is pending approval."
+        },
+        "nextTitle": "What happens next",
+        "step1": "An administrator reviews your details.",
+        "step2": "You cannot sign in until your account is approved.",
+        "step3": "Once approved, sign in with your phone number and password."
+      },
+      "success": "Your account was created. You can sign in now."
+    }
+  },
+  "home": {
+    "driver": "My Assigned Orders",
+    "trader": "Dashboard",
+    "client": "Home",
+    "admin": "Dashboard",
+    "empty": "Nothing here yet. Your content will appear here soon.",
+    "signedInAs": "Signed in as {name}",
+    "role": "Role: {role}"
+  },
+  "userMenu": {
+    "button": "Account menu",
+    "label": "Account",
+    "name": "Name",
+    "role": "Role"
+  },
+  "roles": {
+    "driver": "Driver",
+    "trader": "Trader",
+    "client": "Client",
+    "admin": "Admin",
+    "manager": "Manager"
+  },
+  "account": {
+    "password": {
+      "menu": "Change password",
+      "title": "Change password",
+      "current": "Current password",
+      "new": "New password",
+      "confirm": "Confirm new password",
+      "submit": "Change password",
+      "submitting": "Changing…",
+      "changedNotice": "Your password was changed. Please sign in again.",
+      "errors": {
+        "currentRequired": "Enter your current password.",
+        "newRequired": "Enter a new password.",
+        "mismatch": "The new passwords do not match."
+      }
+    },
+    "profile": {
+      "menu": "Profile",
+      "title": "My profile",
+      "username": "Username",
+      "status": "Status",
+      "name": "Full name",
+      "email": "Email (optional)",
+      "save": "Save changes",
+      "saving": "Saving…",
+      "saved": "Your profile was saved."
+    },
+    "forgot": {
+      "link": "Forgot password?",
+      "title": "Forgot your password?",
+      "intro": "Enter your phone number, username or email. If an email is on file, we will send you a link to choose a new password.",
+      "identifier": "Phone number, username or email",
+      "identifierHint": "We never say whether an account exists.",
+      "required": "Enter your phone number, username or email.",
+      "submit": "Send reset link",
+      "submitting": "Sending…",
+      "noEmail": "If your account has no email on file, contact an administrator.",
+      "backToLogin": "Back to sign in"
+    },
+    "reset": {
+      "title": "Choose a new password",
+      "missingToken": "This reset link is missing its token. Open the link from your email again or ask for a new one.",
+      "submit": "Set new password",
+      "submitting": "Saving…",
+      "askAgain": "Ask for a new link",
+      "doneNotice": "Your password was reset. You can sign in now."
+    }
+  },
+  "common": {
+    "loading": "Loading…",
+    "retry": "Try again",
+    "none": "—",
+    "cancel": "Cancel",
+    "offline": "You appear to be offline. Check your connection and try again."
+  },
+  "statuses": {
+    "active": "Active",
+    "pending_approval": "Pending approval",
+    "deactivated": "Deactivated",
+    "rejected": "Rejected"
+  },
+  "admin": {
+    "nav": {
+      "label": "Admin sections",
+      "dashboard": "Dashboard",
+      "approvals": "Approvals",
+      "users": "Users",
+      "orders": "Order review",
+      "assign": "Assign orders",
+      "allOrders": "All orders",
+      "drivers": "Drivers",
+      "traders": "Traders",
+      "clients": "Clients",
+      "audit": "Audit log"
+    },
+    "approvals": {
+      "title": "Pending approvals",
+      "empty": "No registrations are waiting for approval.",
+      "approve": "Approve",
+      "reject": "Reject",
+      "reason": "Reason (optional)",
+      "confirmReject": "Confirm rejection"
+    },
+    "users": {
+      "title": "Users",
+      "new": "New user",
+      "search": "Search name or phone",
+      "role": "Role",
+      "status": "Status",
+      "all": "All",
+      "actions": "Actions",
+      "empty": "No users match these filters.",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "pager": "Pages",
+      "prev": "Previous",
+      "next": "Next",
+      "pageOf": "Page {page} · {count} users",
+      "confirmDeactivate": "Deactivate this account? The person will not be able to use the app."
+    },
+    "userForm": {
+      "createTitle": "New user",
+      "editTitle": "Edit user",
+      "back": "Back to users",
+      "saved": "User saved.",
+      "password": "Password",
+      "passwordKeep": "Leave blank to keep the current password.",
+      "usernameHint": "Required for Admin and Manager accounts.",
+      "rejectionReason": "Rejection reason",
+      "lastAction": "Last action",
+      "actions": {
+        "approved": "Approved",
+        "rejected": "Rejected",
+        "activated": "Activated",
+        "deactivated": "Deactivated"
+      },
+      "delete": "Delete user",
+      "confirmDelete": "Delete {name}? This cannot be undone from here.",
+      "confirmYes": "Yes, delete",
+      "adminLocked": "Only an Admin can change or delete an Admin account.",
+      "errors": {
+        "usernameRequired": "A username is required for this role."
+      }
+    },
+    "orders": {
+      "title": "Orders waiting for review",
+      "empty": "No orders are waiting for review.",
+      "direct": "Direct delivery",
+      "client": "Client",
+      "pickup": "Pickup",
+      "delivery": "Delivery",
+      "items": "Items",
+      "description": "Details",
+      "approve": "Approve",
+      "reject": "Reject",
+      "fee": "Delivery fee (optional)",
+      "feeHint": "You can also set the fee later. Leave empty to approve without a fee.",
+      "reason": "Reason for the client (required)",
+      "confirmApprove": "Approve order",
+      "confirmReject": "Reject order",
+      "approved": "Order {reference} approved.",
+      "rejected": "Order {reference} rejected.",
+      "errors": {
+        "feeInvalid": "Enter a fee from 0 to 100000 with at most 2 decimals.",
+        "reasonRequired": "Enter the reason for the client.",
+        "reasonShort": "The reason must be at least 3 characters."
+      }
+    },
+    "assign": {
+      "title": "Orders waiting for a driver",
+      "empty": "No orders are waiting for a driver.",
+      "noDrivers": "There are no active drivers to assign.",
+      "driver": "Driver",
+      "assign": "Assign driver",
+      "assigning": "Assigning…",
+      "busy": "busy with {reference}",
+      "done": "Order {reference} assigned to {driver}.",
+      "errors": {
+        "driverRequired": "Choose a driver."
+      }
+    },
+    "table": {
+      "title": "All orders",
+      "search": "Search by reference",
+      "from": "Created from",
+      "to": "Created to",
+      "empty": "No orders match.",
+      "reference": "Reference",
+      "driver": "Driver",
+      "fee": "Fee",
+      "created": "Created"
+    },
+    "staff": {
+      "phone": "Phone",
+      "shop": "Shop",
+      "drivers": {
+        "title": "Drivers",
+        "empty": "No drivers found.",
+        "count": "Delivered orders"
+      },
+      "traders": {
+        "title": "Traders and shops",
+        "empty": "No traders found.",
+        "count": "Orders"
+      },
+      "clients": {
+        "title": "Clients",
+        "empty": "No clients found.",
+        "count": "Orders"
+      },
+      "updated": "Saved.",
+      "notFound": "This account was not found.",
+      "ordersTotal": "Orders",
+      "cancelled": "Cancelled orders",
+      "activeOrder": "Active order",
+      "open": "Open",
+      "closed": "Closed",
+      "noShop": "No shop set up yet.",
+      "price": "Price",
+      "priceSaved": "Price saved.",
+      "priceInvalid": "Enter a price from 0 to 100000 with at most 2 decimals, or leave it empty.",
+      "recent": "Recent orders",
+      "noOrders": "No orders yet.",
+      "actions": {
+        "approve": "Approve",
+        "activate": "Activate",
+        "deactivate": "Deactivate"
+      }
+    },
+    "performance": {
+      "title": "Driver performance",
+      "sort": "Sort by",
+      "byDelivered": "Delivered orders",
+      "byRating": "Average rating",
+      "empty": "No drivers yet.",
+      "average": "Average rating",
+      "ratings": "Ratings"
+    },
+    "dashboard": {
+      "empty": "Nothing to show yet.",
+      "active": "Active",
+      "inactive": "Inactive",
+      "pending": "Pending approval",
+      "ordersTitle": "Orders",
+      "period": "Period",
+      "periods": {
+        "all": "All time",
+        "today": "Today",
+        "week": "Last 7 days",
+        "month": "This month",
+        "custom": "Custom range"
+      },
+      "rangeError": "The start date must not be after the end date.",
+      "total": "All orders",
+      "inProgress": "In progress",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled",
+      "help": "Pending means waiting for review or for a driver. In progress means assigned, picked up or in delivery."
+    }
+  },
+  "places": {
+    "name": "Name",
+    "address": "Address",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "coordinatesHint": "Optional. Enter both latitude and longitude, or leave both empty.",
+    "errors": {
+      "nameRequired": "Enter a name.",
+      "nameShort": "The name must be at least 2 characters.",
+      "addressRequired": "Enter an address.",
+      "addressShort": "The address must be at least 3 characters.",
+      "pairRequired": "Enter both latitude and longitude, or leave both empty.",
+      "latitudeInvalid": "Latitude must be a number from -90 to 90.",
+      "longitudeInvalid": "Longitude must be a number from -180 to 180.",
+      "needOne": "Choose pickup, delivery, or both.",
+      "savedRequired": "Choose a saved address."
+    },
+    "useSaved": "Use a saved address",
+    "typeNew": "Type a place",
+    "savedAddress": "Saved address",
+    "choose": "Choose…"
+  },
+  "trader": {
+    "nav": {
+      "label": "Trader sections",
+      "dashboard": "Dashboard",
+      "locations": "Locations",
+      "shop": "My shop",
+      "items": "Items",
+      "orders": "Orders"
+    },
+    "locations": {
+      "title": "My locations",
+      "intro": "Add the places clients can pick up from or deliver to.",
+      "add": "Add location",
+      "edit": "Edit",
+      "empty": "You have no locations yet. Add one so clients can order from your shop.",
+      "usedFor": "Used for",
+      "pickup": "Pickup",
+      "delivery": "Delivery",
+      "makeDefault": "Use as my default pickup point",
+      "defaultBadge": "Default pickup",
+      "confirmDelete": "Delete this location? Existing orders are not affected."
+    },
+    "dashboard": {
+      "empty": "No orders have been placed to your shop yet.",
+      "total": "All orders",
+      "waiting": "Waiting for a driver",
+      "progress": "In progress",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled",
+      "seeOrders": "See the orders"
+    }
+  },
+  "shop": {
+    "title": "My shop",
+    "saved": "Saved.",
+    "name": "Shop name",
+    "phone": "Shop phone",
+    "phoneHint": "Optional. Clients can use it to reach the shop.",
+    "description": "Short description",
+    "available": "My shop is open for orders",
+    "orderable": "Clients can order from your shop.",
+    "notOrderable": "Clients cannot order from your shop yet:",
+    "whyClosed": "Your shop is marked as closed. Turn on \"open for orders\" and save.",
+    "whyPickup": "Your shop has no pickup location. Add one in",
+    "errors": {
+      "nameRequired": "Enter the shop name.",
+      "nameShort": "The shop name must be at least 2 characters.",
+      "descriptionLong": "The description can be at most 500 characters."
+    },
+    "items": {
+      "title": "Shop items",
+      "intro": "The items clients can choose from. Prices are set by the administrators.",
+      "add": "Add item",
+      "edit": "Edit",
+      "name": "Item name",
+      "description": "Short description (optional)",
+      "empty": "You have no items yet.",
+      "hiddenBadge": "Hidden",
+      "hide": "Hide",
+      "show": "Show",
+      "confirmDelete": "Delete this item?",
+      "errors": {
+        "nameRequired": "Enter the item name.",
+        "nameShort": "The item name must be at least 2 characters.",
+        "descriptionLong": "The description can be at most 300 characters."
+      }
+    }
+  },
+  "clientHome": {
+    "shop": "Order from a shop",
+    "direct": "Deliver from place to place",
+    "comingSoon": "Coming soon",
+    "myOrders": "My orders",
+    "quickLinks": "Quick links"
+  },
+  "client": {
+    "nav": {
+      "label": "Client sections",
+      "home": "Home",
+      "addresses": "Saved addresses",
+      "shops": "Shops",
+      "orders": "My orders"
+    },
+    "addresses": {
+      "title": "Saved addresses",
+      "intro": "Save the places you often use, so you can pick them when you order.",
+      "add": "Add address",
+      "edit": "Edit",
+      "empty": "You have no saved addresses yet.",
+      "confirmDelete": "Delete this address?"
+    },
+    "shops": {
+      "title": "Shops",
+      "search": "Search shops by name",
+      "empty": "No shops are available right now.",
+      "open": "View shop",
+      "back": "Back to shops",
+      "unavailable": "This shop is not available for orders right now.",
+      "items": "Items",
+      "noItems": "This shop has no items yet.",
+      "order": "Order from this shop"
+    },
+    "order": {
+      "title": "Order from a shop",
+      "back": "Back to the shop",
+      "quantity": "Quantity",
+      "pickup": "Pickup from",
+      "delivery": "Deliver to",
+      "note": "Note for the order (optional)",
+      "submit": "Place order",
+      "submitting": "Placing order…",
+      "doneTitle": "Order placed",
+      "doneIntro": "Your order was sent.",
+      "reference": "Order number",
+      "waitingReview": "It is waiting for review. You will see it move on once it is approved.",
+      "errors": {
+        "itemsRequired": "Choose at least one item.",
+        "quantityMax": "The quantity of an item can be at most 99.",
+        "descriptionLong": "The note can be at most 1000 characters."
+      }
+    },
+    "direct": {
+      "title": "Deliver from place to place",
+      "pickup": "Pickup place",
+      "delivery": "Delivery place",
+      "details": "What should be delivered?",
+      "errors": {
+        "detailsRequired": "Describe what should be delivered.",
+        "detailsShort": "The details must be at least 3 characters.",
+        "detailsLong": "The details can be at most 1000 characters."
+      }
+    }
+  },
+  "orders": {
+    "refresh": "Refresh",
+    "noAssigned": "You have no assigned orders right now.",
+    "newest": "Newest assignment",
+    "assignedAt": "Assigned",
+    "details": "Order details",
+    "updating": "Updating…",
+    "status": {
+      "created": "Waiting for review",
+      "available": "Waiting for a driver",
+      "assigned": "Assigned",
+      "picked_up": "Picked up",
+      "in_delivery": "In delivery",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "actions": {
+      "pick_up": "Mark as picked up",
+      "start_delivery": "Start delivery",
+      "deliver": "Mark as delivered"
+    },
+    "backHome": "Back to my orders",
+    "notFound": "This order is not available to you.",
+    "shop": "Shop",
+    "deliveredAt": "Delivered",
+    "cancelReason": "Reason for cancellation",
+    "historyTitle": "My orders",
+    "historyEmpty": "You have no finished orders yet.",
+    "waitingDriver": "Waiting for a driver",
+    "backToList": "Back to the orders",
+    "list": {
+      "trader": "Orders of my shop",
+      "client": "My orders",
+      "empty": "No orders found.",
+      "active": "Active"
+    }
+  },
+  "driver": {
+    "nav": {
+      "label": "Driver sections",
+      "home": "Assigned orders",
+      "orders": "My orders",
+      "profile": "Profile",
+      "performance": "Performance"
+    }
+  },
+  "staffOrder": {
+    "back": "Back to all orders",
+    "feeSaved": "Delivery fee saved.",
+    "cancelled": "Order cancelled.",
+    "itemsTotal": "Items total",
+    "noFee": "Not set",
+    "review": "Go to review",
+    "assign": "Go to assignment",
+    "setFee": "Delivery fee",
+    "cancel": "Cancel order",
+    "confirmCancel": "Cancel this order",
+    "timeline": "Status timeline"
+  },
+  "clientOrder": {
+    "waitingReview": "Your order is waiting for review.",
+    "waitingDriver": "Your order is approved and waiting for a driver.",
+    "edit": "Edit order",
+    "cancel": "Cancel order",
+    "reason": "Reason (optional)",
+    "confirmCancel": "Cancel this order",
+    "keep": "Keep the order",
+    "cancelled": "Your order was cancelled.",
+    "backToOrder": "Back to the order",
+    "editTitle": "Edit order",
+    "locked": "This order can no longer be edited because a driver has been assigned or it is finished.",
+    "rereview": "This order is already approved. Saving your changes sends it back for review.",
+    "shopGone": "The shop is not taking orders right now, so the items cannot be changed. You can still change the delivery place and the note.",
+    "changeItems": "Change the items",
+    "keepPickup": "Keep the current pickup place",
+    "yourRating": "Your rating",
+    "outOf": "{score} out of 5",
+    "rateTitle": "Rate the driver",
+    "score": "Score (1 to 5)",
+    "scoreRequired": "Choose a score from 1 to 5.",
+    "comment": "Comment (optional)",
+    "rate": "Send rating",
+    "thanks": "Thank you for your rating."
+  },
+  "performance": {
+    "title": "My performance",
+    "empty": "No deliveries yet. Your figures will appear here after your first order.",
+    "month": "Month",
+    "allTime": "All time",
+    "delivered": "Delivered orders",
+    "cancelled": "Cancelled orders",
+    "rating": "Average rating ({n} ratings)",
+    "noRatings": "No ratings yet"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "bell": "Notifications",
+    "bellUnread": "Notifications, {n} unread",
+    "empty": "You have no notifications.",
+    "unreadOnly": "Unread only",
+    "readAll": "Mark all as read",
+    "new": "New",
+    "kinds": {
+      "order_waiting_review": "A new order {reference} is waiting for review.",
+      "account_waiting_approval": "A new account is waiting for approval.",
+      "order_approved": "Your order {reference} was approved.",
+      "order_rejected": "Your order {reference} was rejected.",
+      "order_assigned": "Order {reference} was assigned to a driver.",
+      "order_picked_up": "Your order {reference} was picked up.",
+      "order_in_delivery": "Your order {reference} is on its way.",
+      "order_delivered": "Your order {reference} was delivered.",
+      "order_cancelled": "Order {reference} was cancelled."
+    }
+  },
+  "audit": {
+    "title": "Audit log",
+    "action": "Action",
+    "when": "When",
+    "who": "Who",
+    "target": "Target",
+    "detail": "Details",
+    "empty": "Nothing has been recorded yet.",
+    "actions": {
+      "order_status": "Order status",
+      "order_fee": "Delivery fee",
+      "order_rating": "Rating",
+      "item_price": "Item price",
+      "account_approved": "Account approved",
+      "account_rejected": "Account rejected",
+      "account_activated": "Account activated",
+      "account_deactivated": "Account deactivated"
+    }
+  }
+}

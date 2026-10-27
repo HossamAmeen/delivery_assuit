@@ -1,0 +1,43 @@
+PASS C-LOGIN-1 login 200, access in body, no refresh anywhere in JSON {"success":true,"message":"Login successful.","data":{"access":"eyJhbGciOiJIUzI1
+PASS C-LOGIN-2 cookie set with HttpOnly, SameSite=Strict, Path=/api/v1/auth/, Max-Age=7d, no Domain {'expires': 'Mon, 02 Nov 2026 21:38:45 GMT', 'path': '/api/v1/auth/', 'comment': '', 'domain': '', 'max-age': '604800', 'secure': '', 'httponly': True, 'version': '', 'samesite': 'Strict'}
+PASS C-LOGIN-3 dev default: cookie not Secure 
+PASS C-LOGIN-4 bad password 401, no cookie 
+PASS C-LOGIN-5 extra 'refresh' field in login body ignored 
+PASS C-REF-1 refresh 200 with access only, no refresh in JSON {"success":true,"message":"Token refreshed successfully.","data":{"access":"eyJhbGciOiJIUzI1NiIsInR5
+PASS C-REF-2 refresh sets a NEW cookie with same flags 
+PASS C-REF-3 new access token works on /auth/me/ 
+PASS C-ORG-1 refresh without Origin -> 403 origin_rejected, cookie untouched {'success': False, 'message': "This request's origin is not allowed.", 'errors': {}, 'code': 'origin_rejected'}
+PASS C-ORG-2 foreign Origin 'http://evil.example' -> 403 403
+PASS C-ORG-2 foreign Origin 'http://localhost:5174' -> 403 403
+PASS C-ORG-2 foreign Origin 'https://localhost:5173' -> 403 403
+PASS C-ORG-2 foreign Origin 'http://localhost:5173/' -> 403 403
+PASS C-ORG-2 foreign Origin 'null' -> 403 403
+PASS C-ORG-2 foreign Origin 'http://LOCALHOST:5173.evil.com' -> 403 403
+PASS C-ORG-3 rejected Origin did NOT rotate/blacklist: same cookie still works 200
+PASS C-ORG-4 logout foreign Origin -> 403 and cookie not blacklisted 
+PASS C-ORG-5 after rejected logout the token still refreshes 
+PASS C-ORG-6 login does not require Origin 
+PASS C-CH-1 no cookie -> 401 Token is invalid or expired. {'success': False, 'message': 'Token is invalid or expired.', 'errors': {}}
+PASS C-CH-2 junk cookie -> 401 
+PASS C-CH-3 refresh token in JSON body only (no cookie) is ignored -> 401 401
+PASS C-CH-4 logout with token in body only does NOT blacklist it 200,200
+PASS C-REUSE-1 reuse of old token -> 401 same body {"success":false,"message":"Token is invalid or expired.","errors":{}}
+PASS C-REUSE-2 reuse clears the cookie (Max-Age=0 / empty) {'expires': 'Thu, 01 Jan 1970 00:00:00 GMT', 'path': '/api/v1/auth/', 'comment': '', 'domain': '', 'max-age': '0', 'secure': '', 'httponly': True, 'version': '', 'samesite': 'Strict'}
+PASS C-REUSE-3 after reuse, the user's OTHER outstanding token (r2) is revoked -> 401 401
+PASS C-REUSE-4 user can log in again after reuse revocation 
+PASS C-REUSE-5 ...and the new session refreshes 
+PASS C-REUSE-6 reuse by user A does not revoke user B's tokens 200
+PASS C-OUT-1 logout 200 contract body {"success":true,"message":"Logged out successfully.","data":{}}
+PASS C-OUT-2 logout clears cookie (Max-Age=0) 
+PASS C-OUT-3 token blacklisted after logout -> refresh 401 
+PASS C-OUT-4 logout idempotent with already-blacklisted token -> 200 
+PASS C-OUT-5 logout with no cookie -> 200 
+PASS C-OUT-6 logout with junk cookie -> 200 
+PASS C-OUT-7 logout works with an invalid/expired bearer attached 200
+PASS C-CORS-1 preflight allows exact origin + credentials true, not '*' http://localhost:5173
+PASS C-CORS-2 preflight from evil origin gets no Allow-Origin None
+PASS C-STAT-1 deactivated account cannot refresh -> 401 {'success': False, 'message': 'Token is invalid or expired.', 'errors': {}}
+PASS C-RACE-1 8 parallel refreshes of one token: <=1 success, no 500 [200, 401, 401, 401, 401, 401, 401, 401]
+PASS C-HDR-1 no refresh token or Set-Cookie leaked into JSON; X-Content-Type-Options present 
+
+FAILED: 0

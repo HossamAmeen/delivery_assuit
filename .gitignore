@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+*.sqlite3
+__pycache__/
+.venv/
+node_modules/
+
+# build output
+frontend/dist/
+deploy/
+.qa_tmp_report.txt

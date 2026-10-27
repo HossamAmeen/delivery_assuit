@@ -1,0 +1,341 @@
+# Arabic translations for server messages.
+msgid ""
+msgstr ""
+"Project-Id-Version: delivery-backend\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5);\n"
+
+msgid "Operation completed successfully."
+msgstr "تمت العملية بنجاح."
+
+msgid "Request could not be completed."
+msgstr "تعذر إكمال الطلب."
+
+msgid "Conflict with the current state of the resource."
+msgstr "يتعارض الطلب مع الحالة الحالية للمورد."
+
+msgid "Validation failed."
+msgstr "فشل التحقق من صحة البيانات."
+
+msgid "Authentication credentials were not provided or are invalid."
+msgstr "لم يتم تقديم بيانات الاعتماد أو أنها غير صالحة."
+
+msgid "You do not have permission to perform this action."
+msgstr "ليس لديك صلاحية لتنفيذ هذا الإجراء."
+
+msgid "Resource not found."
+msgstr "المورد غير موجود."
+
+msgid "Method not allowed."
+msgstr "الطريقة غير مسموح بها."
+
+msgid "Request rate limit exceeded."
+msgstr "تم تجاوز حد الطلبات المسموح به."
+
+msgid "An unexpected error occurred."
+msgstr "حدث خطأ غير متوقع."
+
+msgid "Malformed request."
+msgstr "الطلب غير صحيح الصياغة."
+
+msgid "Invalid health check password."
+msgstr "كلمة مرور فحص الحالة غير صالحة."
+
+msgid "Service is healthy."
+msgstr "الخدمة تعمل بشكل سليم."
+
+msgid "Service is ready."
+msgstr "الخدمة جاهزة."
+
+msgid "Service is not ready."
+msgstr "الخدمة غير جاهزة."
+
+msgid "Invalid credentials."
+msgstr "بيانات الاعتماد غير صحيحة."
+
+msgid "Login successful."
+msgstr "تم تسجيل الدخول بنجاح."
+
+msgid "Token is invalid or expired."
+msgstr "الرمز غير صالح أو منتهي الصلاحية."
+
+msgid "Token refreshed successfully."
+msgstr "تم تحديث الرمز بنجاح."
+
+msgid "Too many failed login attempts. Try again later."
+msgstr "محاولات تسجيل دخول فاشلة كثيرة جدًا. حاول مرة أخرى لاحقًا."
+
+msgid "Registration successful."
+msgstr "تم التسجيل بنجاح."
+
+msgid "Registration successful. Your account is pending approval."
+msgstr "تم التسجيل بنجاح. حسابك قيد انتظار الموافقة."
+
+msgid "Enter a valid phone number (8 to 15 digits)."
+msgstr "أدخل رقم هاتف صالحًا (من 8 إلى 15 رقمًا)."
+
+msgid "A user with this phone number already exists."
+msgstr "يوجد مستخدم بهذا رقم الهاتف بالفعل."
+
+msgid "A user with this email already exists."
+msgstr "يوجد مستخدم بهذا البريد الإلكتروني بالفعل."
+
+msgid ""
+"Your account is pending approval. You will be able to log in once an "
+"administrator approves it."
+msgstr "حسابك قيد انتظار الموافقة. ستتمكن من تسجيل الدخول بعد موافقة المسؤول عليه."
+
+msgid "Your account has been deactivated. Please contact the administrator."
+msgstr "تم تعطيل حسابك. يرجى التواصل مع المسؤول."
+
+msgid "Logged out successfully."
+msgstr "تم تسجيل الخروج بنجاح."
+
+msgid "This request's origin is not allowed."
+msgstr "أصل هذا الطلب غير مسموح به."
+
+msgid "Invalid token."
+msgstr "الرمز غير صالح."
+
+msgid "Current password is incorrect."
+msgstr "كلمة المرور الحالية غير صحيحة."
+
+msgid "Password changed. Please log in again."
+msgstr "تم تغيير كلمة المرور. يرجى تسجيل الدخول مرة أخرى."
+
+msgid "You cannot change this field."
+msgstr "لا يمكنك تغيير هذا الحقل."
+
+msgid "Profile updated."
+msgstr "تم تحديث الملف الشخصي."
+
+msgid "If an email is on file for that account, a reset link has been sent."
+msgstr "إذا كان هناك بريد إلكتروني مسجل لهذا الحساب، فقد تم إرسال رابط إعادة التعيين."
+
+msgid "Password has been reset. Please log in."
+msgstr "تمت إعادة تعيين كلمة المرور. يرجى تسجيل الدخول."
+
+msgid "This reset link is invalid or has expired."
+msgstr "رابط إعادة التعيين غير صالح أو منتهي الصلاحية."
+
+msgid "Reset your password"
+msgstr "إعادة تعيين كلمة المرور"
+
+msgid ""
+"We received a request to reset your password.\n"
+"\n"
+"Open this link to choose a new password (valid for %(minutes)d minutes, one "
+"use only):\n"
+"%(link)s\n"
+"\n"
+"If you did not ask for this, ignore this email. Your password stays the same."
+msgstr ""
+"تلقينا طلبًا لإعادة تعيين كلمة المرور الخاصة بك.\n"
+"\n"
+"افتح هذا الرابط لاختيار كلمة مرور جديدة (صالح لمدة %(minutes)d دقيقة، "
+"ولمرة واحدة فقط):\n"
+"%(link)s\n"
+"\n"
+"إذا لم تطلب ذلك، تجاهل هذه الرسالة. ستبقى كلمة مرورك كما هي."
+
+msgid "Your registration was rejected."
+msgstr "تم رفض تسجيلك."
+
+#, python-format
+msgid "Your registration was rejected. Reason: %(reason)s."
+msgstr "تم رفض تسجيلك. السبب: %(reason)s."
+
+msgid "You cannot manage an administrator account."
+msgstr "لا يمكنك إدارة حساب مسؤول."
+
+msgid "Only a pending driver or trader can be approved."
+msgstr "يمكن قبول المندوب أو التاجر قيد الانتظار فقط."
+
+msgid "Only a pending driver or trader can be rejected."
+msgstr "يمكن رفض المندوب أو التاجر قيد الانتظار فقط."
+
+msgid "User approved."
+msgstr "تم قبول المستخدم."
+
+msgid "User rejected."
+msgstr "تم رفض المستخدم."
+
+msgid "Only a deactivated account can be activated."
+msgstr "يمكن تفعيل الحساب المعطل فقط."
+
+msgid "Only an active account can be deactivated."
+msgstr "يمكن تعطيل الحساب النشط فقط."
+
+msgid "You cannot deactivate your own account."
+msgstr "لا يمكنك تعطيل حسابك بنفسك."
+
+msgid "User activated."
+msgstr "تم تفعيل المستخدم."
+
+msgid "User deactivated."
+msgstr "تم تعطيل المستخدم."
+
+msgid "A user with this username already exists."
+msgstr "يوجد مستخدم بهذا اسم المستخدم بالفعل."
+
+msgid "You cannot delete your own account."
+msgstr "لا يمكنك حذف حسابك بنفسك."
+
+msgid "You cannot change your own role."
+msgstr "لا يمكنك تغيير دورك بنفسك."
+
+msgid "A username is required for this role."
+msgstr "اسم المستخدم مطلوب لهذا الدور."
+
+msgid "User created."
+msgstr "تم إنشاء المستخدم."
+
+msgid "User updated."
+msgstr "تم تحديث المستخدم."
+
+msgid "User deleted."
+msgstr "تم حذف المستخدم."
+
+msgid "Saved."
+msgstr "تم الحفظ."
+
+msgid "Deleted."
+msgstr "تم الحذف."
+
+msgid "Latitude is required with longitude."
+msgstr "خط العرض مطلوب مع خط الطول."
+
+msgid "Longitude is required with latitude."
+msgstr "خط الطول مطلوب مع خط العرض."
+
+msgid "Choose pickup, delivery, or both."
+msgstr "اختر الاستلام أو التوصيل أو كليهما."
+
+msgid "The default pickup must allow pickup."
+msgstr "يجب أن تسمح نقطة الاستلام الافتراضية بالاستلام."
+
+msgid "You can keep at most %(n)d entries."
+msgstr "يمكنك الاحتفاظ بحد أقصى %(n)d عنصرًا."
+
+msgid "An item with this name already exists."
+msgstr "يوجد عنصر بهذا الاسم بالفعل."
+
+msgid "You can keep at most %(n)d items."
+msgstr "يمكنك الاحتفاظ بحد أقصى %(n)d عنصرًا."
+
+msgid "This order is final and cannot be changed."
+msgstr "هذا الطلب نهائي ولا يمكن تغييره."
+
+msgid "This status change is not allowed."
+msgstr "هذا التغيير في الحالة غير مسموح."
+
+msgid "You cannot make this status change."
+msgstr "لا يمكنك إجراء هذا التغيير في الحالة."
+
+msgid "Choose an active driver."
+msgstr "اختر سائقًا نشطًا."
+
+msgid "Your order was created."
+msgstr "تم إنشاء طلبك."
+
+msgid "Send the place or a saved address, not both."
+msgstr "أرسل المكان أو عنوانًا محفوظًا، وليس كليهما."
+
+msgid "Saved address not found."
+msgstr "لم يتم العثور على العنوان المحفوظ."
+
+msgid "This field is not accepted for this kind of order."
+msgstr "هذا الحقل غير مقبول لهذا النوع من الطلبات."
+
+msgid "This shop is not available for orders."
+msgstr "هذا المتجر غير متاح للطلبات."
+
+msgid "Describe what is being delivered (at least 3 characters)."
+msgstr "صف ما سيتم توصيله (3 أحرف على الأقل)."
+
+msgid "Choose one of the shop's pickup locations."
+msgstr "اختر أحد مواقع الاستلام الخاصة بالمتجر."
+
+msgid "Choose at least one item."
+msgstr "اختر صنفًا واحدًا على الأقل."
+
+msgid "You can order at most %(n)d different items."
+msgstr "يمكنك طلب %(n)d صنفًا مختلفًا كحد أقصى."
+
+msgid "Each item can appear only once."
+msgstr "يمكن أن يظهر كل صنف مرة واحدة فقط."
+
+msgid "One or more items are not available from this shop."
+msgstr "صنف واحد أو أكثر غير متاح في هذا المتجر."
+
+msgid "Order approved."
+msgstr "تمت الموافقة على الطلب."
+
+msgid "Order rejected."
+msgstr "تم رفض الطلب."
+
+msgid "Only a new order can be reviewed."
+msgstr "يمكن مراجعة الطلب الجديد فقط."
+
+msgid "Only an available order can be assigned."
+msgstr "يمكن إسناد الطلب المتاح فقط."
+
+msgid "This driver already has an active order."
+msgstr "لدى هذا السائق طلب نشط بالفعل."
+
+msgid "Order assigned."
+msgstr "تم إسناد الطلب."
+
+msgid "Order updated."
+msgstr "تم تحديث الطلب."
+
+msgid "The fee of a finished order cannot be changed."
+msgstr "لا يمكن تغيير رسوم طلب منتهٍ."
+
+msgid "Enter the reason for the cancellation."
+msgstr "أدخل سبب الإلغاء."
+
+msgid "Delivery fee saved."
+msgstr "تم حفظ رسوم التوصيل."
+
+msgid "Order cancelled."
+msgstr "تم إلغاء الطلب."
+
+msgid "The shop of an order cannot be changed."
+msgstr "لا يمكن تغيير متجر الطلب."
+
+msgid "You cannot edit this order."
+msgstr "لا يمكنك تعديل هذا الطلب."
+
+msgid "This order can no longer be edited."
+msgstr "لم يعد بالإمكان تعديل هذا الطلب."
+
+msgid "Only the client of the order can rate it."
+msgstr "يمكن لعميل الطلب وحده تقييمه."
+
+msgid "Only a delivered order can be rated."
+msgstr "يمكن تقييم الطلب المُسلَّم فقط."
+
+msgid "This order was already rated."
+msgstr "تم تقييم هذا الطلب بالفعل."
+
+msgid "Thank you for your rating."
+msgstr "شكرًا على تقييمك."
+
+msgid "Use the format YYYY-MM."
+msgstr "استخدم الصيغة YYYY-MM."
+
+msgid "Choose delivered or rating."
+msgstr "اختر عدد الطلبات المُسلَّمة أو التقييم."
+
+msgid "Enter a valid date (YYYY-MM-DD)."
+msgstr "أدخل تاريخًا صحيحًا (YYYY-MM-DD)."
+
+msgid "Choose today, week, month or custom."
+msgstr "اختر اليوم أو الأسبوع أو الشهر أو مخصص."
+
+msgid "The start date must not be after the end date."
+msgstr "يجب ألا يكون تاريخ البداية بعد تاريخ النهاية."

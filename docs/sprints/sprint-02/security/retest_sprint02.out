@@ -1,0 +1,46 @@
+OK       JWT-14     10 parallel redemptions, round 1: 200x1 401x9 other=[]
+OK       JWT-14s    strict exactly-one-200 observed on SQLite this round: 1
+OK       JWT-14b    old token refused after the race
+OK       JWT-14c    winner's access token works
+OK       JWT-14d    winner's refresh rotates again -> 200
+OK       JWT-14e    winner's rotated-away refresh refused
+OK       JWT-14     10 parallel redemptions, round 2: 200x1 401x9 other=[]
+OK       JWT-14s    strict exactly-one-200 observed on SQLite this round: 1
+OK       JWT-14b    old token refused after the race
+OK       JWT-14c    winner's access token works
+OK       JWT-14d    winner's refresh rotates again -> 200
+OK       JWT-14e    winner's rotated-away refresh refused
+OK       JWT-14     10 parallel redemptions, round 3: 200x1 401x9 other=[]
+OK       JWT-14s    strict exactly-one-200 observed on SQLite this round: 1
+OK       JWT-14b    old token refused after the race
+OK       JWT-14c    winner's access token works
+OK       JWT-14d    winner's refresh rotates again -> 200
+OK       JWT-14e    winner's rotated-away refresh refused
+OK       JWT-14     30 parallel redemptions, round 1: 200x1 401x29 other=[]
+OK       JWT-14s    strict exactly-one-200 observed on SQLite this round: 1
+OK       JWT-14b    old token refused after the race
+OK       JWT-14c    winner's access token works
+OK       JWT-14d    winner's refresh rotates again -> 200
+OK       JWT-14e    winner's rotated-away refresh refused
+OK       JWT-14     30 parallel redemptions, round 2: 200x1 401x29 other=[]
+OK       JWT-14s    strict exactly-one-200 observed on SQLite this round: 1
+OK       JWT-14b    old token refused after the race
+OK       JWT-14c    winner's access token works
+OK       JWT-14d    winner's refresh rotates again -> 200
+OK       JWT-14e    winner's rotated-away refresh refused
+OK       JWT-14     30 parallel redemptions, round 3: 200x1 401x29 other=[]
+OK       JWT-14s    strict exactly-one-200 observed on SQLite this round: 1
+OK       JWT-14b    old token refused after the race
+OK       JWT-14c    winner's access token works
+OK       JWT-14d    winner's refresh rotates again -> 200
+OK       JWT-14e    winner's rotated-away refresh refused
+OK       ROT-1      rotate 200, reuse 401
+OK       ROT-2      logout 200, refresh after logout 401
+OK       ROT-3      logout of an already rotated-away token is idempotent
+INFO     ROT-4      error envelope on reuse: {"success":false,"message":"Token is invalid or expired.","errors":{}}
+OK       LOCK-1     refresh while DB write-locked -> 401 in 5.0s (never 500); body {"success":false,"message":"Token is invalid or expired.","errors":{}}
+OK       LOCK-2     same token after the lock is released -> 200 (rolled back, token not burned)
+OK       LOCK-3     and then it is single-use again
+OK       THR-1/np0  25 logins rotating a forged X-Forwarded-For (direct to app, LOCAL ONLY): 10x401 15x429 (expected: np0 limited, np1 bypassed = why the port must not be exposed)
+OK       THR-1/np1  25 logins rotating a forged X-Forwarded-For (direct to app, LOCAL ONLY): 25x401 0x429 (expected: np0 limited, np1 bypassed = why the port must not be exposed)
+DONE

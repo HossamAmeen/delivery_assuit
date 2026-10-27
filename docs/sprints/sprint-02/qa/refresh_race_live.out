@@ -1,0 +1,64 @@
+PASS ROT-1 normal rotation: 200 with new access + refresh, both differ 
+PASS ROT-2 new access token works on /auth/me/ 
+PASS ROT-3 sequential reuse of old refresh -> 401 generic envelope 
+PASS ROT-4 chain: rotated token rotates again (200) 
+PASS ROT-5 reuse of r2 afterwards -> 401 
+PASS LOG-1 logout 200/204 
+PASS LOG-2 refresh after logout -> 401 
+PASS LOG-3 logout twice idempotent 
+PASS LOG-4 logout with the old (rotated) token is idempotent success 
+PASS LOG-5 logout kills the new token; refresh with it -> 401 
+PASS ERR-1 garbage refresh -> 401 
+PASS RACE-1.10a 10 parallel refreshes: no 500 and no other non-200/401 codes {200: 1, 401: 9}
+PASS RACE-1.10b 10 parallel refreshes: at most one 200 200s=1
+PASS RACE-1.10c old token refused after the race (401) 
+PASS RACE-1.10d winner's new access works 
+PASS RACE-1.10e winner's new refresh rotates (200) 
+PASS RACE-1.20a 20 parallel refreshes: no 500 and no other non-200/401 codes {200: 1, 401: 19}
+PASS RACE-1.20b 20 parallel refreshes: at most one 200 200s=1
+PASS RACE-1.20c old token refused after the race (401) 
+PASS RACE-1.20d winner's new access works 
+PASS RACE-1.20e winner's new refresh rotates (200) 
+PASS RACE-2.10a 10 parallel refreshes: no 500 and no other non-200/401 codes {200: 1, 401: 9}
+PASS RACE-2.10b 10 parallel refreshes: at most one 200 200s=1
+PASS RACE-2.10c old token refused after the race (401) 
+PASS RACE-2.10d winner's new access works 
+PASS RACE-2.10e winner's new refresh rotates (200) 
+PASS RACE-2.20a 20 parallel refreshes: no 500 and no other non-200/401 codes {200: 1, 401: 19}
+PASS RACE-2.20b 20 parallel refreshes: at most one 200 200s=1
+PASS RACE-2.20c old token refused after the race (401) 
+PASS RACE-2.20d winner's new access works 
+PASS RACE-2.20e winner's new refresh rotates (200) 
+PASS RACE-3.10a 10 parallel refreshes: no 500 and no other non-200/401 codes {200: 1, 401: 9}
+PASS RACE-3.10b 10 parallel refreshes: at most one 200 200s=1
+PASS RACE-3.10c old token refused after the race (401) 
+PASS RACE-3.10d winner's new access works 
+PASS RACE-3.10e winner's new refresh rotates (200) 
+PASS RACE-3.20a 20 parallel refreshes: no 500 and no other non-200/401 codes {200: 1, 401: 19}
+PASS RACE-3.20b 20 parallel refreshes: at most one 200 200s=1
+PASS RACE-3.20c old token refused after the race (401) 
+PASS RACE-3.20d winner's new access works 
+PASS RACE-3.20e winner's new refresh rotates (200) 
+PASS RACE-4.10a 10 parallel refreshes: no 500 and no other non-200/401 codes {200: 1, 401: 9}
+PASS RACE-4.10b 10 parallel refreshes: at most one 200 200s=1
+PASS RACE-4.10c old token refused after the race (401) 
+PASS RACE-4.10d winner's new access works 
+PASS RACE-4.10e winner's new refresh rotates (200) 
+PASS RACE-4.20a 20 parallel refreshes: no 500 and no other non-200/401 codes {200: 1, 401: 19}
+PASS RACE-4.20b 20 parallel refreshes: at most one 200 200s=1
+PASS RACE-4.20c old token refused after the race (401) 
+PASS RACE-4.20d winner's new access works 
+PASS RACE-4.20e winner's new refresh rotates (200) 
+PASS RACE-5.10a 10 parallel refreshes: no 500 and no other non-200/401 codes {200: 1, 401: 9}
+PASS RACE-5.10b 10 parallel refreshes: at most one 200 200s=1
+PASS RACE-5.10c old token refused after the race (401) 
+PASS RACE-5.10d winner's new access works 
+PASS RACE-5.10e winner's new refresh rotates (200) 
+PASS RACE-5.20a 20 parallel refreshes: no 500 and no other non-200/401 codes {200: 1, 401: 19}
+PASS RACE-5.20b 20 parallel refreshes: at most one 200 200s=1
+PASS RACE-5.20c old token refused after the race (401) 
+PASS RACE-5.20d winner's new access works 
+PASS RACE-5.20e winner's new refresh rotates (200) 
+SUMMARY (round, n, #200, #401, #500): [(1, 10, 1, 9, 0), (1, 20, 1, 19, 0), (2, 10, 1, 9, 0), (2, 20, 1, 19, 0), (3, 10, 1, 9, 0), (3, 20, 1, 19, 0), (4, 10, 1, 9, 0), (4, 20, 1, 19, 0), (5, 10, 1, 9, 0), (5, 20, 1, 19, 0)]
+NOT RUN: strict exactly-one-200 assertion (PostgreSQL only).
+FAILS=0

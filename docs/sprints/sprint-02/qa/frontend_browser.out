@@ -1,0 +1,131 @@
+PASS BL012-1 admin/username login lands on /admin with title, name and role /admin | Dashboard | Demo Admin | Admin
+PASS BL012-1 admin/phone login lands on /admin with title, name and role /admin | Dashboard | Demo Admin | Admin
+PASS BL012-1 manager/username login lands on /admin with title, name and role /admin | Dashboard | Demo Manager | Manager
+PASS BL012-1 manager/phone login lands on /admin with title, name and role /admin | Dashboard | Demo Manager | Manager
+PASS BL012-1 driver/username login lands on /driver with title, name and role /driver | My Assigned Orders | Demo Driver | Driver
+PASS BL012-1 driver/phone login lands on /driver with title, name and role /driver | My Assigned Orders | Demo Driver | Driver
+PASS BL012-1 trader/username login lands on /trader with title, name and role /trader | Dashboard | Demo Trader | Trader
+PASS BL012-1 trader/phone login lands on /trader with title, name and role /trader | Dashboard | Demo Trader | Trader
+PASS BL012-1 client/username login lands on /client with title, name and role /client | Home | Demo Client | Client
+PASS BL012-1 client/phone login lands on /client with title, name and role /client | Home | Demo Client | Client
+PASS BL012-2 pending account: friendly pending message, stays on /login, no session stored Your account is pending approval.
+PASS BL012-3 deactivated account: friendly deactivated message, no session stored Your account has been deactivated. Please contact the administrator.
+PASS BL012-4 wrong password: generic "Invalid credentials.", password field cleared, no session Invalid credentials.
+PASS BL012-5 unknown user gets the identical message as wrong password (no existence leak) Invalid credentials.
+PASS BL012-6 wrong password on a pending account shows the generic message (not pending) 
+PASS BL012-7 empty submit: required messages under both fields, aria-invalid set Enter your phone number or username. | Enter your password.
+PASS A11Y-K1 Enter in the password field submits the login form /client
+PASS BL012-8 show/hide password toggles input type and aria-pressed 
+PASS BL012-9 while submitting: button disabled, aria-busy, inputs disabled (no double submit) {"dis":true,"busy":"true","idDis":true}
+PASS BL012-10 login has a link to registration 
+PASS BL011-1 chooser (3 cards) -> /register/client; title and name label correct Register as a client | Full name
+PASS BL011-2 empty submit: per-field errors for name, phone, password (email optional) reg-full_name-error,reg-phone-error,reg-password-error
+PASS BL011-3 invalid name/phone/email/short password flagged client-side with no request sent 
+PASS BL011-4 confirm-password mismatch flagged 
+PASS BL011-5 client success: redirected to /login?registered=1 with success note /login?registered=1 | Your account was created. You can sign in now.
+PASS BL011-6 new client logs in (phone typed in another format) and lands on /client /client
+PASS BL009-1 chooser (3 cards) -> /register/driver; title and name label correct Register as a driver | Full name
+PASS BL009-2 empty submit: per-field errors for name, phone, password (email optional) reg-full_name-error,reg-phone-error,reg-password-error
+PASS BL009-3 invalid name/phone/email/short password flagged client-side with no request sent 
+PASS BL009-4 confirm-password mismatch flagged 
+PASS BL009-5 driver success: pending-approval screen with next steps (3), no auto-login Registration received
+PASS BL009-5f pending screen moves focus to its heading (screen-reader announcement) H1
+PASS BL009-6 new driver cannot log in yet: pending message shown Your account is pending approval.
+PASS BL010-1 chooser (3 cards) -> /register/trader; title and name label correct Register as a trader | Shop or trader name
+PASS BL010-2 empty submit: per-field errors for name, phone, password (email optional) reg-full_name-error,reg-phone-error,reg-password-error
+PASS BL010-3 invalid name/phone/email/short password flagged client-side with no request sent 
+PASS BL010-4 confirm-password mismatch flagged 
+PASS BL010-5 trader success: pending-approval screen with next steps (3), no auto-login Registration received
+PASS BL010-5f pending screen moves focus to its heading (screen-reader announcement) H1
+PASS BL010-6 new trader cannot log in yet: pending message shown Your account is pending approval.
+PASS BL009-7 duplicate phone: server error shown under the phone field, form kept A user with this phone number already exists.
+PASS BL009-8 weak password: server error shown under the password field This password is too common.
+PASS BL009-9 duplicate email: server error shown under the email field A user with this email already exists.
+PASS I18N-R1 duplicate phone error is in Arabic when UI is Arabic يوجد مستخدم بهذا رقم الهاتف بالفعل.
+PASS BL009-10 register request goes to the role URL and carries only full_name/phone/password (empty email omitted; no role/status/confirm) {"full_name":"Body Check","phone":"01005550044","password":"***"}
+PASS BL013-1 only the refresh token is stored (localStorage); access token not in storage/cookies 
+PASS BL013-2 page refresh keeps the session on the same screen (My Assigned Orders) /driver
+PASS BL013-3 refresh token rotated and replaced in storage after restore 
+PASS BL013-4 the pre-reload refresh token no longer works on the server (rotation) 
+PASS BL013-5 direct URL load of own area with a stored session stays on it 
+PASS BL013-6 logout from user menu goes to /login and clears the stored refresh token /login
+PASS BL013-7 logged-out refresh token is blacklisted server-side (401) 
+PASS BL013-8 back button after logout does not show the protected screen (redirected to /login) {"path":"/login","h1":"Sign in","home":false}
+PASS BL013-9 after logout a protected URL redirects to /login 
+PASS BL013-10 logout still signs the user out locally when the logout API call fails /login
+PASS A11Y-K2 user menu opens with Enter, shows name and role, Escape closes and returns focus to the button Demo ManagerManagerSign out
+PASS A11Y-K3 logout reachable and operable by keyboard only /login
+PASS GUARD-1 anonymous opening any role area is redirected to /login /login,/login,/login,/login
+PASS GUARD-2 anonymous 404 page renders (public) 
+PASS GUARD-3 anonymous home is public 
+PASS GUARD-4 admin other roles' areas and guest-only pages redirect to own home /admin {"/driver":"/admin","/trader":"/admin","/client":"/admin","/admin":"/admin","/login":"/admin","/register":"/admin","/register/driver":"/admin","/register/trader":"/admin","/register/client":"/admin"}
+PASS GUARD-5 admin navigation links only point to own area (plus public pages) /admin
+PASS GUARD-6 admin 404 page for signed-in user renders and keeps the session 
+PASS GUARD-4 manager other roles' areas and guest-only pages redirect to own home /admin {"/driver":"/admin","/trader":"/admin","/client":"/admin","/admin":"/admin","/login":"/admin","/register":"/admin","/register/driver":"/admin","/register/trader":"/admin","/register/client":"/admin"}
+PASS GUARD-5 manager navigation links only point to own area (plus public pages) /admin
+PASS GUARD-6 manager 404 page for signed-in user renders and keeps the session 
+PASS GUARD-4 driver other roles' areas and guest-only pages redirect to own home /driver {"/driver":"/driver","/trader":"/driver","/client":"/driver","/admin":"/driver","/login":"/driver","/register":"/driver","/register/driver":"/driver","/register/trader":"/driver","/register/client":"/driver"}
+PASS GUARD-5 driver navigation links only point to own area (plus public pages) /driver
+PASS GUARD-6 driver 404 page for signed-in user renders and keeps the session 
+PASS GUARD-4 trader other roles' areas and guest-only pages redirect to own home /trader {"/driver":"/trader","/trader":"/trader","/client":"/trader","/admin":"/trader","/login":"/trader","/register":"/trader","/register/driver":"/trader","/register/trader":"/trader","/register/client":"/trader"}
+PASS GUARD-5 trader navigation links only point to own area (plus public pages) /trader
+PASS GUARD-6 trader 404 page for signed-in user renders and keeps the session 
+PASS GUARD-4 client other roles' areas and guest-only pages redirect to own home /client {"/driver":"/client","/trader":"/client","/client":"/client","/admin":"/client","/login":"/client","/register":"/client","/register/driver":"/client","/register/trader":"/client","/register/client":"/client"}
+PASS GUARD-5 client navigation links only point to own area (plus public pages) /client
+PASS GUARD-6 client 404 page for signed-in user renders and keeps the session 
+PASS BL012-11 session ended elsewhere (refresh invalid): reload goes to /login with a session-expired notice, storage cleared /login | Your session has expired. Please sign in again.
+PASS BL012-12 account deactivated while signed in: reload returns to /login with a message, no protected content /login | Your session has expired. Please sign in again.
+PASS BL012-13 deactivated user cannot log in again (deactivated message) 
+PASS I18N-L1 pending / deactivated / invalid messages shown in Arabic, distinct حسابك قيد المراجعة والموافقة. | تم تعطيل حسابك. يرجى التواصل مع المسؤول. | بيانات الاعتماد غير صحيحة.
+PASS I18N-L2 Arabic login lands on /client with Arabic title and RTL الرئيسية
+PASS RTL /login 360px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Sign in","ar":"تسجيل الدخول","ov":[0,0],"clip":[]}
+PASS RTL /login 1280px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Sign in","ar":"تسجيل الدخول","ov":[0,0],"clip":[]}
+PASS RTL /register 360px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Register","ar":"إنشاء حساب","ov":[0,0],"clip":[]}
+PASS RTL /register 1280px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Register","ar":"إنشاء حساب","ov":[0,0],"clip":[]}
+PASS RTL /register/client 360px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Register as a client","ar":"التسجيل كعميل","ov":[0,0],"clip":[]}
+PASS RTL /register/client 1280px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Register as a client","ar":"التسجيل كعميل","ov":[0,0],"clip":[]}
+PASS RTL /register/driver 360px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Register as a driver","ar":"التسجيل كسائق","ov":[0,0],"clip":[]}
+PASS RTL /register/driver 1280px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Register as a driver","ar":"التسجيل كسائق","ov":[0,0],"clip":[]}
+PASS RTL /register/trader 360px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Register as a trader","ar":"التسجيل كتاجر","ov":[0,0],"clip":[]}
+PASS RTL /register/trader 1280px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Register as a trader","ar":"التسجيل كتاجر","ov":[0,0],"clip":[]}
+PASS RTL /driver 360px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"My Assigned Orders","ar":"طلباتي المسندة","ov":[0,0],"clip":[]}
+  note: English-looking text in Arabic UI on /driver [ 'Demo Driver', 'Demo Driver' ]
+PASS RTL /driver 1280px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"My Assigned Orders","ar":"طلباتي المسندة","ov":[0,0],"clip":[]}
+  note: English-looking text in Arabic UI on /driver [ 'Demo Driver', 'Demo Driver' ]
+PASS RTL /trader 360px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Dashboard","ar":"لوحة التحكم","ov":[0,0],"clip":[]}
+  note: English-looking text in Arabic UI on /trader [ 'Demo Trader', 'Demo Trader' ]
+PASS RTL /trader 1280px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Dashboard","ar":"لوحة التحكم","ov":[0,0],"clip":[]}
+  note: English-looking text in Arabic UI on /trader [ 'Demo Trader', 'Demo Trader' ]
+PASS RTL /client 360px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Home","ar":"الرئيسية","ov":[0,0],"clip":[]}
+  note: English-looking text in Arabic UI on /client [ 'Demo Client', 'Demo Client' ]
+PASS RTL /client 1280px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Home","ar":"الرئيسية","ov":[0,0],"clip":[]}
+  note: English-looking text in Arabic UI on /client [ 'Demo Client', 'Demo Client' ]
+PASS RTL /admin 360px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Dashboard","ar":"لوحة التحكم","ov":[0,0],"clip":[]}
+  note: English-looking text in Arabic UI on /admin [ 'Demo Admin', 'Demo Admin' ]
+PASS RTL /admin 1280px en<->ar flips text+dir, persists on reload, no horizontal overflow or clipping {"en":"Dashboard","ar":"لوحة التحكم","ov":[0,0],"clip":[]}
+  note: English-looking text in Arabic UI on /admin [ 'Demo Admin', 'Demo Admin' ]
+PASS RTL pending 360px pending-approval screen in Arabic: RTL, Arabic text, no overflow; Arabic name + Arabic-Indic phone accepted {"pend":true,"dir":"rtl","ov":0,"h1":"تم استلام طلب التسجيل"}
+PASS RTL errors 360px client-side validation errors localized (Arabic) with no overflow أدخل اسمك. | أدخل رقم هاتفك. | أدخل كلمة المرور.
+PASS RTL login-error 360px long Arabic pending message does not overflow at 360px 
+PASS A11Y-K4 /login Tab reaches all fields/buttons in visual order with visible focus indicator skip-link > BUTTON > BUTTON > login-identifier > login-password > toggle-password > submit > touch-link > is-active > bottom-nav-link > BODY > skip-link > BUTTON > BUTTON > login-identifier > login-password
+PASS A11Y-F1 /login focused controls are never hidden under the fixed bottom nav/header (WCAG 2.4.11) 
+PASS A11Y-T1 /login touch targets >= 44px at 360px 
+PASS A11Y-L1 /login every input has an associated label 
+PASS A11Y-K4 /register/driver Tab reaches all fields/buttons in visual order with visible focus indicator skip-link > BUTTON > BUTTON > reg-full_name > reg-phone > reg-email > reg-password > toggle-password > reg-confirm > submit > touch-link > bottom-nav-link > bottom-nav-link > BODY > skip-link > BUTTON
+PASS A11Y-F1 /register/driver focused controls are never hidden under the fixed bottom nav/header (WCAG 2.4.11) 
+PASS A11Y-T1 /register/driver touch targets >= 44px at 360px 
+PASS A11Y-L1 /register/driver every input has an associated label 
+PASS A11Y-E1 field error is linked to its input through aria-describedby Enter your name.
+PASS A11Y-E3 API error message exposed with role="alert" alert
+PASS SEC-1 no token/password in any URL, navigation or query string (6535 requests inspected) 
+PASS SEC-2 no token/password in browser console output (317 messages inspected) 
+PASS SEC-3 no JWT or password in the vite or backend server logs 
+PASS QUAL-1 no uncaught page errors or Vue warnings during the whole run 
+PASS SEC-4 the app only talks to its own origin and the configured API 
+PASS BL012-14 en 429 (rate limited) shows a friendly localized message, not the invalid-credentials one Too many requests. Please wait a moment.
+PASS BL012-14 ar 429 (rate limited) shows a friendly localized message, not the invalid-credentials one طلبات كثيرة جدًا. يرجى الانتظار قليلًا.
+PASS BL012-15 en backend unreachable: friendly network error, form stays usable Cannot reach the server. Please try again later.
+PASS BL012-15 ar backend unreachable: friendly network error, form stays usable تعذر الاتصال بالخادم. يرجى المحاولة لاحقًا.
+  info: backend down on reload -> path=/login refreshTokenKept=true
+
+120/120 passed; logs in /tmp/qa-fe-qsnmNL

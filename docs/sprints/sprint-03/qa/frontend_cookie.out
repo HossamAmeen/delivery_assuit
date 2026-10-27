@@ -1,0 +1,26 @@
+PASS F-LOGIN-1 client login lands on /client /client
+PASS F-LOGIN-2 localStorage has no refresh token and no JWT anywhere in storage ["locale"]
+PASS F-LOGIN-3 document.cookie is empty (cookie is HttpOnly) ""
+PASS F-LOGIN-4 the browser holds delivery_refresh as HttpOnly, SameSite=Strict, Path=/api/v1/auth/ {"name":"delivery_refresh","value":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc5MzY1NTc4MSwiaWF0IjoxNzkzMDUwOTgxLCJqdGkiOiI5ZmQyMjUxNGE2ZTE0Y2RmYjVmOGMxMjBmMzA5MzgwMyIsInVzZXJfaWQiOiI1In0.reKJxh8D1VCq_Op3y0IN9oWmKIRbM1qlgzrEkIpo92s","domain":"127.0.0.1","path":"/api/v1/auth/","expires":1793655781.024938,"size":248,"httpOnly":true,"secure":false,"session":false,"sameSite":"Strict","priority":"Medium","sourceScheme":"NonSecure"}
+PASS F-LOGIN-5 login request/response made once and succeeded 
+PASS F-RELOAD-1 reload keeps the user on /client with the same page /client
+PASS F-RELOAD-2 restore used refresh (200) then /auth/me/ (200) [["/auth/token/refresh/",200],["/auth/me/",200],["/auth/me/",200]]
+PASS F-RELOAD-3 refresh request body carries no token (empty or {}) {}
+PASS F-RELOAD-4 still nothing in storage after restore 
+PASS F-GUARD-1 client opening /driver is bounced away (role guard intact) /client
+PASS F-LEGACY-1 old localStorage refresh token is removed at startup null
+PASS F-LEGACY-2 legacy token is never sent to the server 
+PASS F-OUT-1 logout control found and clicked 
+PASS F-OUT-2 logout goes to /login, API logout 200 with empty body /login 200 undefined
+PASS F-OUT-3 cookie is cleared in the browser 
+PASS F-OUT-4 after logout a reload does not restore the session (stays /login) /login
+PASS F-OUT-5 no "session expired" error on a plain logged-out visit null
+PASS F-COLD-1 first visit without a cookie shows no session-expired message null
+FAIL F-ELSE-1 session killed elsewhere: reload goes to /login with a session-expired notice /login | null
+PASS F-ELSE-2 no protected content or leftover tokens 
+PASS F-OUT-6 logout still signs out locally when the logout API fails true /login
+PASS F-STAT-1 account deactivated while signed in: reload returns to /login /login
+PASS F-ORG-1 page on a non-allowlisted origin (localhost:5175) cannot refresh via cookie blocked
+PASS F-LOG-1 no JWT or refresh token written to the vite log 
+
+PASSED 23/24; FAILED: 1

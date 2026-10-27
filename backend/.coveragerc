@@ -1,0 +1,9 @@
+[run]
+omit =
+    .venv/*
+    manage.py
+    config/wsgi.py
+    config/asgi.py
+    config/celery.py
+    */tests/*
+    tests/*

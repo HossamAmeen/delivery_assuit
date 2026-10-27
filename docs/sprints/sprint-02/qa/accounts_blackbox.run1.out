@@ -1,0 +1,102 @@
+PASS SETUP-1 migrate on empty DB (incl. token_blacklist) 
+PASS T033-1 seed_demo succeeds, no password printed 
+PASS T033-2 seed_demo twice: identical users, no duplicates 8 [('demo_admin', 'admin', 'active'), ('demo_client', 'clien
+PASS T033-3 each status represented (active, pending_approval, deactivated) 
+PASS T033-4 demo pending driver + deactivated client exist; active driver and trader exist 
+PASS BL009-1 driver register -> 201, role driver, pending_approval, phone normalised, no tokens {"success":true,"message":"Registration successful. Your account is pending approval.","data":{"user":{"id":9,"full_name
+PASS BL009-1b driver register message per contract 
+PASS BL010-1 trader register -> 201 trader pending_approval, +20 phone normalised {'id': 10, 'full_name': 'Nile Shop', 'phone': '201112223333', 'role': 'trader', 'status': 'pending_approval'}
+PASS BL011-1 client register -> 201 client active, Arabic-Indic digits normalised {'id': 11, 'full_name': 'Ahmed Ali', 'phone': '01200334455', 'role': 'client', 'status': 'active'}
+PASS BL009-2/driver duplicate phone (different formatting) rejected on driver {'phone': ['A user with this phone number already exists.']}
+PASS BL009-2/trader duplicate phone (different formatting) rejected on trader {'phone': ['A user with this phone number already exists.']}
+PASS BL009-2/client duplicate phone (different formatting) rejected on client {'phone': ['A user with this phone number already exists.']}
+PASS BL009-3 weak password -> 400 errors.password {'password': ['This password is too short. It must contain at least 8 characters.', 'This password is too common.', 'This password is entirely numeric.']}
+PASS BL009-3b common password rejected 
+PASS BL009-3c numeric password rejected 
+PASS BL009-3d password equal to phone rejected 
+PASS BL009-4 missing all fields -> 400 with full_name, phone, password errors {'full_name': ['This field is required.'], 'phone': ['This field is required.'], 'password': ['This field is required.']}
+PASS BL009-5 1-char name and 3-digit phone rejected 
+PASS BL009-5b 16-digit phone rejected 
+PASS BL009-5c letters-only phone rejected 
+PASS BL009-6 email is optional (registration without email works) 
+PASS BL009-7 invalid email -> 400 errors.email 
+PASS BL009-8 duplicate email -> 400 errors.email {'email': ['A user with this email already exists.']}
+PASS BL009-9 full_name trimmed 
+PASS BL009-9b 256-char name rejected 
+PASS BL008-MA1 mass assignment on client register: role/status/is_staff/username ignored client active False False None
+PASS BL008-MA2 mass assignment on driver register: stays driver/pending_approval driver pending_approval False
+PASS BL008-MA3 mass assignment on trader register ignored trader pending_approval
+PASS BL009-10 password never in any response; hashed in DB 
+PASS BL008-R1 no public register/admin or /manager endpoint (404) 
+PASS BL009-11 GET on register -> 405 envelope 
+PASS BL009-12 malformed JSON on register -> 400 (not 500) 
+PASS BL009-13 list/dict field values -> 400 (not 500) 
+PASS BL009-14 HTML in name stored verbatim, returned as JSON (no 500) 
+PASS I18N-1 register duplicate phone error in Arabic ['يوجد مستخدم بهذا رقم الهاتف بالفعل.']
+PASS I18N-2 register success message in Arabic تم التسجيل بنجاح.
+PASS BL012-1 client logs in by phone -> access, refresh, user summary (active, client) 
+PASS BL012-2 login by phone with +, spaces, dashes and Arabic-Indic digits 
+PASS BL012-3 admin logs in by username -> role admin 
+PASS BL012-4 manager (seeded) logs in by username -> role manager 
+PASS BL012-5 seeded active driver and trader log in with right roles 
+PASS BL012-6 pending driver, correct password -> 403 account_pending, friendly msg, no tokens {"success":false,"message":"Your account is pending approval. You will be able to log in once an administrator approves it.","errors":{},"code":"accou
+PASS BL012-6b pending self-registered trader -> 403 account_pending 
+PASS BL012-7 deactivated client, correct password -> 403 account_deactivated, no tokens {"success":false,"message":"Your account has been deactivated. Please contact the administrator.","errors":{},"code":"account_deactivated"}
+PASS BL012-8 wrong password on pending/deactivated/unknown -> identical 401 body (status not probeable) {'success': False, 'message': 'Invalid credentials.', 'errors': {}}
+PASS BL012-9 pending message in Arabic حسابك قيد انتظار الموافقة. ستتمكن من تسجيل الدخول بعد موافقة المسؤول عليه.
+PASS BL012-9b deactivated message in Arabic 
+PASS BL012-9c 401 in Arabic 
+PASS BL012-10 missing password -> 400 field error 
+PASS BL012-11 soft-deleted account -> 401 identical generic body 401
+PASS BL012-12 timing: unknown vs existing vs pending identifier with wrong password within 50%/30ms unknown=904ms known=907ms pending=847ms
+PASS BL008-1 anonymous /auth/me/ -> 401 envelope 
+PASS BL008-1b garbage bearer -> 401 
+PASS BL008-2/admin admin: /auth/me/ -> 200 profile with right role, no password/internal fields ['email', 'full_name', 'id', 'phone', 'role', 'status', 'username']
+PASS BL008-2/manager manager: /auth/me/ -> 200 profile with right role, no password/internal fields ['email', 'full_name', 'id', 'phone', 'role', 'status', 'username']
+PASS BL008-2/driver driver: /auth/me/ -> 200 profile with right role, no password/internal fields ['email', 'full_name', 'id', 'phone', 'role', 'status', 'username']
+PASS BL008-2/trader trader: /auth/me/ -> 200 profile with right role, no password/internal fields ['email', 'full_name', 'id', 'phone', 'role', 'status', 'username']
+PASS BL008-2/client client: /auth/me/ -> 200 profile with right role, no password/internal fields ['email', 'full_name', 'id', 'phone', 'role', 'status', 'username']
+PASS BL008-3 valid access token of later-deactivated account -> 403 account_deactivated on /me {"success":false,"message":"Your account has been deactivated. Please contact the administrator.","errors":{},"code":"ac
+PASS BL012-13 refresh for deactivated account -> 401 generic 
+PASS BL008-4 access token of account set back to pending -> 403 account_pending (PO decision: pending has no /me) 
+PASS BL012-14 refresh for pending account -> 401 
+PASS BL008-5 re-activated account: same token works again (status checked live) 
+PASS BL008-6 soft-deleted account: access token refused (401/403) 401
+PASS BL012-15 soft-deleted account: refresh -> 401 
+PASS BL008-7 anonymous: only register/login/refresh/logout reachable (me=401, health needs pw, unknown=404) 
+PASS BL008-8 wrong method on /me (POST) -> 405 envelope 
+PASS BL008-9 client cannot reach admin site API: /admin/ needs staff login (302 to login) 
+PASS BL008-10 refresh token used as access token on /me -> 401 
+PASS BL008-11 access token used as refresh -> 401 
+PASS BL013-1 refresh -> 200 with NEW refresh + access, message per contract 
+PASS BL013-2 reusing the old (rotated) refresh -> 401 generic 
+PASS BL013-3 new refresh works and rotates again 
+PASS BL013-4 refresh without body field -> 400 errors.refresh 
+PASS BL013-5 logout -> 200 envelope per contract (works with no Authorization header) {'success': True, 'message': 'Logged out successfully.', 'data': {}}
+PASS BL013-6 after logout the refresh token cannot be used (401) 
+PASS BL013-7 logout twice is idempotent (200) 
+PASS BL013-7b logout with an already-rotated (blacklisted) token -> 200 
+PASS BL013-8 logout without refresh -> 400 errors.refresh required 
+PASS BL013-9 logout with junk token -> 400 errors.refresh 'Invalid token.' {'refresh': ['Invalid token.']}
+PASS BL013-9b logout with an ACCESS token -> 400 (not accepted as refresh) 400
+PASS BL013-10 logging out one session leaves another session's refresh usable 
+PASS BL013-11 already-issued access token stays valid until expiry (documented contract behaviour) 
+PASS BL013-12 GET /logout/ -> 405 envelope 
+PASS I18N-3 logout message in Arabic تم تسجيل الخروج بنجاح.
+PASS I18N-4 invalid-refresh 401 in Arabic 
+PASS I18N-5 /me 401 in Arabic 
+PASS RATE-A1 login: 11th request within a minute -> 429 [401, 401, 401, 401, 401, 401, 401, 401, 401, 401, 429]
+PASS RATE-A2 429 envelope and Retry-After 
+PASS RATE-A3 429 in Arabic 
+PASS RATE-A4 correct password also blocked while throttled (bucket is per IP) 
+PASS RATE-A5 refresh and logout share the auth bucket (both 429) 
+PASS RATE-A6 spoofed X-Forwarded-For does NOT bypass the limit 429,429
+PASS RATE-S1 register: 31st request/min -> 429 even with a different forged X-Forwarded-For each time [201, 201, 429, 429]
+PASS RATE-S2 register 429 envelope + Retry-After 
+PASS RATE-P1 NUM_PROXIES=1: forged leftmost X-Forwarded-For entries do not reset the limit [401, 401, 401, 401, 401, 401, 401, 401, 401, 401, 429, 429]
+PASS RATE-P2 NUM_PROXIES=1: a different trusted-hop address gets its own bucket (sanity) 401
+PASS DATA-1 makemigrations --check clean (no missing migrations) 
+PASS DATA-2 every self-registered account has a phone 0
+PASS DATA-3 no duplicate phones in DB 0
+
+100/100 passed
